@@ -1,3 +1,14 @@
+:root {
+  --dark-blue: #233d4d;
+  --orange: #fe7f2d;
+  --yellow: #fcca46;
+  --green: #a1c181;
+  --dark-green: #619b8a;
+  --light-blue: #3d6a87;
+  --sky: #adc0cc;
+  --blue-gray: #627c8c;
+  --off-white: #fffcf2;
+}
 * {
   margin: 0;
   padding: 0;
@@ -6,6 +17,10 @@
 
 html {
   font-size: 64.5%;
+}
+
+html,
+body {
   height: 100%;
 }
 
@@ -13,4 +28,110 @@ body {
   min-height: 100vh;
   width: 100vw;
   overflow-x: hidden;
+  background-color: var(--off-white);
+  transition: background-color 0.1s ease;
+  color: var(--dark-blue);
+  font-family: "Roboto Slab", serif;
+  display: flex;
+  flex-direction: column;
+}
+
+body.dark-theme {
+  background-color: var(--dark-blue);
+  color: var(--off-white);
+}
+
+.showLists--btn.dark-theme {
+  background-color: var(--off-white);
+}
+
+.lists--cont.dark-theme {
+  background-color: var(--blue-gray);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.6em;
+  user-select: none;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--orange);
+  margin: 15px;
+}
+
+#theme {
+  width: 25px;
+  cursor: pointer;
+  transition: 0.2s all;
+}
+
+#theme:hover {
+  transform: scale(1.15) rotate(8deg);
+}
+
+main {
+  flex-grow: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.todos--cont {
+  position: absolute;
+  width: 100%;
+  z-index: -1;
+}
+
+.lists--cont {
+  height: 100%;
+  width: 50%;
+  background-color: var(--sky);
+  transition: transform 0.3s ease, background-color 0.1s;
+  border-top-right-radius: 8px;
+  margin-top: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  display: flex;
+  padding: 10px;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.lists--cont img {
+  width: 20px;
+  cursor: pointer;
+  transition: 0.1s all;
+}
+
+.lists--cont img:hover {
+  transform: scale(1.1);
+}
+
+.lists--cont.hideList {
+  transform: translateX(-100%);
+}
+
+.showLists--btn {
+  background-color: var(--dark-blue);
+  width: 10%;
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.1s all;
+  transform: translateX(-10%);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.showLists--btn img {
+  transition: 0.15s all;
+}
+.showLists--btn:hover {
+  transform: scaleX(1.05);
+}
+
+.showLists--btn img {
+  width: 30px;
 }

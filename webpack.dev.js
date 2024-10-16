@@ -6,7 +6,7 @@ module.exports = merge(common, {
   devtool: "inline-source-map",
   devServer: {
     static: "./dist",
-    watchFiles: ["./src/template.html"],
+    watchFiles: ["./src/index.html"],
     open: true,
   },
 });
