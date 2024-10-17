@@ -80,15 +80,16 @@ main {
 .todos--cont {
   position: absolute;
   width: 100%;
-  margin-left: 40px;
   list-style: none;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .lists--cont {
   height: 100%;
   width: 50%;
+  max-width: 300px;
   background-color: var(--sky);
   transition: transform 0.3s ease, background-color 0.1s;
   border-top-right-radius: 8px;
@@ -126,6 +127,10 @@ main {
   justify-content: space-between;
 }
 
+.indivTodoCont:first-of-type {
+  margin-top: 20px;
+}
+
 .indivListCont .delIcon {
   position: static;
   transform: none;
@@ -145,7 +150,7 @@ main {
 
 .showLists--btn {
   background-color: var(--dark-blue);
-  width: 10%;
+  width: 37px;
   border-top-right-radius: 50%;
   border-bottom-right-radius: 50%;
   display: flex;
@@ -155,6 +160,7 @@ main {
   transition: 0.1s all;
   transform: translateX(-10%);
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  z-index: 100;
 }
 
 .showLists--btn img,
@@ -167,7 +173,7 @@ main {
   align-self: flex-end;
   width: 20px;
   position: absolute;
-  right: 60px;
+  right: 40px;
 }
 .showLists--btn:hover {
   transform: scaleX(1.05);
@@ -184,12 +190,14 @@ main {
   flex-direction: column;
   gap: 2px;
   cursor: pointer;
-  max-width: 80vw;
+  max-width: 800px;
+  width: 80vw;
   padding: 10px;
   border-radius: 8px;
   transition: 0.2s all;
   user-select: none;
   position: relative;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .visible {
@@ -345,4 +353,16 @@ main {
 
 .shake {
   animation: shake 0.25s ease;
+}
+
+@media screen and (min-width: 780px) {
+  html {
+    font-size: 70%;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  html {
+    font-size: 90%;
+  }
 }

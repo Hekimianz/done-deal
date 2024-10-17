@@ -23,12 +23,24 @@ const listForm = document.querySelector(".listForm");
 const todoForm = document.querySelector(".taskForm");
 
 let indivLists;
-
-// list memory
 let lists = [];
 
 // Check for saved theme in localStorage
 let savedTheme = localStorage.getItem("theme");
+
+// Load lists from localStorage
+let storedLists = JSON.parse(localStorage.getItem("lists")) || [];
+
+// Re-create the lists and todos to restore methods
+lists = storedLists.map((list) => {
+  const newList = listFactory(list.listName);
+  list.todos.forEach((todo) => {
+    const newTodo = todoFactory(todo.title, todo.description, todo.dueDate);
+    newTodo.completed = todo.completed; // Restore completed state
+    newList.addTodo(newTodo);
+  });
+  return newList;
+});
 
 // Apply saved theme on page load
 if (savedTheme) {
@@ -136,6 +148,7 @@ const displayController = {
         setTimeout(() => {
           displayController.renderLists();
           todosCont.innerHTML = "";
+          localStorage.setItem("lists", JSON.stringify(lists)); // Save updated lists
         }, 250);
       });
       container.appendChild(delList);
@@ -201,20 +214,25 @@ const displayController = {
         container.appendChild(completeBtn);
         completeBtn.addEventListener("click", (e) => {
           lists[this.activeList].todos[i].toggleCompleted();
+          localStorage.setItem("lists", JSON.stringify(lists)); // Save updated lists
           this.renderTodos();
         });
+
         const delIcon = document.createElement("img");
         delIcon.classList.add("delIcon");
-        delIcon.src = savedTheme === "dark" ? lightDel : darkDel;
-        container.appendChild(delIcon);
+        savedTheme === "dark"
+          ? (delIcon.src = lightDel)
+          : (delIcon.src = darkDel);
         delIcon.addEventListener("click", (e) => {
           container.style.background = "#D62828";
           container.classList.add("shake");
-          lists[this.activeList].removeTodo(i);
+          lists[this.activeList].removeTodo(i); // Make sure this method exists
+          localStorage.setItem("lists", JSON.stringify(lists)); // Save updated lists
           setTimeout(() => {
             this.renderTodos();
           }, 250);
         });
+        container.appendChild(delIcon);
       });
     }
   },
@@ -228,43 +246,34 @@ addListBtn.addEventListener("click", () => {
   listForm.classList.remove("hiddenForm");
 });
 
+// List form submission
 listForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const newList = listFactory(e.target.querySelector("input").value);
-  lists.push(newList);
+  const listName = e.target.querySelector("input").value;
+  lists.push(listFactory(listName));
   displayController.renderLists();
-  e.target.reset();
-  e.target.classList.add("hiddenForm");
+  localStorage.setItem("lists", JSON.stringify(lists)); // Save updated lists
+  listForm.classList.add("hiddenForm");
+  listForm.reset();
 });
 
+// Todo form submission
 todoForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const formData = new FormData(e.target);
-  let taskTitle;
-  let taskDesc;
-  let taskDate;
-  for (let [key, value] of formData.entries()) {
-    if (key === "title") {
-      taskTitle = value;
-    } else if (key === "description") {
-      taskDesc = value;
-    } else {
-      taskDate = parseISO(value);
-    }
-  }
-
-  if (taskTitle && taskDate) {
-    const activeIndex = parseInt(displayController.activeList, 10);
-    lists[activeIndex].addTodo(
-      todoFactory(taskTitle, taskDesc, format(taskDate, "dd/MM/yy"))
-    );
-
-    displayController.renderTodos();
-    e.target.reset();
-    e.target.classList.add("hiddenForm");
-  }
+  const todoTitle = document.querySelector(".input--taskTitle").value;
+  const todoDescription = document.querySelector(".input--taskDesc").value;
+  const todoDueDate = format(
+    parseISO(document.querySelector(".input--taskDate").value),
+    "yyyy-MM-dd"
+  );
+  lists[displayController.activeList].addTodo(
+    todoFactory(todoTitle, todoDescription, todoDueDate)
+  );
+  displayController.renderTodos();
+  localStorage.setItem("lists", JSON.stringify(lists)); // Save updated lists
+  todoForm.classList.add("hiddenForm");
+  todoForm.reset();
 });
 
+// Initial render
 displayController.renderLists();
-
-// responsive
