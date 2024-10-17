@@ -3,7 +3,7 @@
   --orange: #fe7f2d;
   --yellow: #fcca46;
   --green: #a1c181;
-  --dark-green: #619b8a;
+  --dark-green: #548778;
   --light-blue: #3d6a87;
   --sky: #adc0cc;
   --blue-gray: #627c8c;
@@ -80,7 +80,10 @@ main {
 .todos--cont {
   position: absolute;
   width: 100%;
-  z-index: -1;
+  margin-left: 40px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
 }
 
 .lists--cont {
@@ -92,15 +95,16 @@ main {
   margin-top: 10px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   display: flex;
+  flex-direction: column;
   padding: 10px;
-  align-items: flex-start;
-  justify-content: flex-end;
+  z-index: 10;
 }
 
 .lists--cont img {
   width: 20px;
   cursor: pointer;
   transition: 0.1s all;
+  align-self: flex-end;
 }
 
 .lists--cont img:hover {
@@ -109,6 +113,34 @@ main {
 
 .lists--cont.hideList {
   transform: translateX(-100%);
+}
+
+.indivListCont {
+  font-size: 1em;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: 0.1s all;
+  padding: 5px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.indivListCont .delIcon {
+  position: static;
+  transform: none;
+}
+
+.indivListCont:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.indivListCont:first-of-type {
+  margin-top: 10px;
+}
+
+.indivListCont:last-of-type {
+  margin-bottom: 0;
 }
 
 .showLists--btn {
@@ -125,8 +157,17 @@ main {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
-.showLists--btn img {
+.showLists--btn img,
+.addTodo--img {
   transition: 0.15s all;
+}
+
+.addTodo--img {
+  cursor: pointer;
+  align-self: flex-end;
+  width: 20px;
+  position: absolute;
+  right: 60px;
 }
 .showLists--btn:hover {
   transform: scaleX(1.05);
@@ -134,4 +175,174 @@ main {
 
 .showLists--btn img {
   width: 30px;
+}
+
+.indivTodoCont {
+  margin-bottom: 2px;
+  font-size: 1.1em;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+  max-width: 80vw;
+  padding: 10px;
+  border-radius: 8px;
+  transition: 0.2s all;
+  user-select: none;
+  position: relative;
+}
+
+.visible {
+  max-height: 500px;
+  opacity: 1;
+  transition: 0.2s all;
+}
+
+.indivTodoCont:hover {
+  background-color: rgba(173, 192, 204, 0.5);
+}
+
+.todo--title.completed {
+  text-decoration: line-through;
+  color: var(--dark-green);
+}
+
+.completed.dark-theme {
+  text-decoration: line-through;
+  color: var(--green);
+}
+
+.hidden {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: 0.2s all;
+}
+
+.delIcon {
+  width: 25px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+}
+
+.delIcon:hover {
+  transform: translateY(-50%) scale(1.1) rotate(5deg);
+}
+
+.completeBtn {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--dark-blue);
+  border-radius: 4px;
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.completeBtn.dark-theme {
+  border-color: var(--off-white);
+}
+
+.completedTaskBtn {
+  background-color: var(--green);
+  background-image: url(./assets/check.png);
+  background-position: center;
+  background-size: cover;
+}
+
+.listForm div,
+.taskForm div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  background-color: var(--sky);
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  left: 50%;
+  top: 25%;
+  transform: translate(-50%);
+  min-width: 200px;
+  gap: 20px;
+  padding: 20px 0;
+  border-radius: 8px;
+}
+
+.listForm,
+.taskForm {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+}
+
+.listForm h2,
+.taskForm h2 {
+  font-size: 2em;
+  border-bottom: 1px solid var(--dark-blue);
+}
+
+.listForm input,
+.taskForm input,
+.taskForm textarea {
+  width: 70%;
+  text-align: center;
+  border-radius: 2px;
+  border: 1px solid var(--dark-blue);
+  padding: 4px 0;
+  color: var(--dark-blue);
+}
+
+.taskForm textarea {
+  width: 80%;
+  padding: 10px 0;
+}
+
+.listForm button,
+.taskForm button {
+  border: 1px solid var(--dark-blue);
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: var(--blue-gray);
+  color: var(--off-white);
+  font-weight: bold;
+  transition: 0.2s all;
+}
+
+.listForm button:hover,
+.taskForm button:hover {
+  background-color: var(--dark-blue);
+  color: var(--off-white);
+  transform: scale(1.05);
+}
+
+.hiddenForm {
+  display: none;
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.shake {
+  animation: shake 0.25s ease;
 }
